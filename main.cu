@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <stdint.h>
-#include "matrix.h"
 #include <time.h>
+#include <cuda.h>
+#include "matrix.h"
 
 #define CUDA(call){ \
     cudaError_t err=(call); \
@@ -75,8 +76,29 @@ __global__ void kernel_main(char *bmp_buf){
     bmp_buf[4*idx+3]=0;
 }
 
+void gpu_info(){    
+    CUdevice dev;
+    CUdevprop properties;
+    char name[512];
+    int major,minor,cnt;
+    size_t bytes;
+
+    cuInit(0); 
+    cuDeviceGetCount(&cnt);
+    for(int i=0;i<cnt;i++){
+        cuDeviceGet(&dev,i);
+        cuDeviceGetName(name,sizeof(name),dev);
+        printf("device %d name: %s\n",i,name);
+        cuDeviceComputeCapability(&major,&minor,dev);
+        cuDeviceTotalMem(&bytes,dev);
+        printf("\tmemory size: %f GB\n",(bytes/1024.0/1024.0/1024.0));
+        cuDeviceGetProperties(&properties,dev); 
+    }
+}
+
 int main(){
     puts("cuda test");
+    gpu_info();
 
     time_t start=time(0);
 

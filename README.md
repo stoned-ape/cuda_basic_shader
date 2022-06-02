@@ -16,6 +16,15 @@ Result will be written to "img.bmp"
 
 ## Memory Management
 
+The pixel buffer must be stored in a region of memory that is accessible
+to both the CPU and GPU.
+```c++
+char *bmp_buf=NULL;
+cudaMallocManaged(&bmp_buf,head.comp_size);
+//do something ...
+cudaFree(bmp_buf);
+```
+
 ## Matrix Library (matrix.h)
 
 Cuda doesn't seem to come with a decent shader math library so I'm using 
@@ -52,3 +61,8 @@ struct bmp_header{
     uint32_t imp_cols; //0
 }
 ```  
+
+
+## References
+
+* http://www.icl.utk.edu/~mgates3/docs/cuda.html
