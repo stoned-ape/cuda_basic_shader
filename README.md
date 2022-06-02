@@ -66,3 +66,4 @@ struct bmp_header{
 ## References
 
 * http://www.icl.utk.edu/~mgates3/docs/cuda.html
+* https://developer.nvidia.com/blog/even-easier-introduction-cuda/
