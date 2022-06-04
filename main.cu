@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <time.h>
 #include <cuda.h>
+#include <stdlib.h>
 #include "matrix.h"
 
 #define CUDA(call){ \
@@ -137,6 +138,7 @@ int main(){
     assert(head.comp_size!=0);
     assert(fwrite(bmp_buf,1,head.comp_size,bmp)==head.comp_size);
     CUDA(cudaFree(bmp_buf));
-
+    fclose(bmp);
     printf("took %.20f seconds\n",(double)(time(0)-start));
+    system("img.bmp");
 }
